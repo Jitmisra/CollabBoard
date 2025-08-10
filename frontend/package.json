@@ -25,7 +25,7 @@
     "dev": "react-scripts start",
     "build": "node set-env.js && react-scripts build",
     "build:dev": "react-scripts build",
-    "build:prod": "REACT_APP_API_BASE_URL=https://web-production-09dde.up.railway.app REACT_APP_SOCKET_URL=https://web-production-09dde.up.railway.app REACT_APP_FRONTEND_URL=https://collab-board-jade.vercel.app react-scripts build",
+    "build:prod": "REACT_APP_API_BASE_URL=https://web-production-09dde.up.railway.app REACT_APP_SOCKET_URL=https://web-production-09dde.up.railway.app REACT_APP_FRONTEND_URL=https://collab-board-jade.vercel.app REACT_APP_GEMINI_API_KEY=AIzaSyAlZ-GzUfjF-UiVsh9q3zZiNYUA0mMgcd0 react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "setup-env": "node set-env.js"

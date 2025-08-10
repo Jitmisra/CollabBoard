@@ -70,6 +70,7 @@ REACT_APP_API_BASE_URL=https://web-production-09dde.up.railway.app
 REACT_APP_SOCKET_URL=https://web-production-09dde.up.railway.app
 REACT_APP_FRONTEND_URL=https://collab-board-jade.vercel.app
 REACT_APP_GEMINI_API_URL=https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent
+REACT_APP_GEMINI_API_KEY=AIzaSyAlZ-GzUfjF-UiVsh9q3zZiNYUA0mMgcd0
 ```
 
 ## 🎯 Benefits

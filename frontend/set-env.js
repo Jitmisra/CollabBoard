@@ -12,7 +12,7 @@ const envVars = {
   REACT_APP_DEV_URL: 'http://localhost:5010',
   REACT_APP_FRONTEND_URL: 'https://collab-board-jade.vercel.app',
   REACT_APP_GEMINI_API_URL: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent',
-  REACT_APP_GEMINI_API_KEY: process.env.GEMINI_API_KEY || ''
+  REACT_APP_GEMINI_API_KEY: process.env.GEMINI_API_KEY || 'AIzaSyAlZ-GzUfjF-UiVsh9q3zZiNYUA0mMgcd0'
 };
 
 // Create .env file content
