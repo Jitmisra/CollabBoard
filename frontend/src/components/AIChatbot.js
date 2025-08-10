@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { GEMINI_API_URL, GEMINI_API_KEY } from '../config/api';
 
 const AIChatbot = ({ socket, roomId, showToast }) => {
   const [messages, setMessages] = useState([
@@ -14,8 +15,7 @@ const AIChatbot = ({ socket, roomId, showToast }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const messagesEndRef = useRef(null);
 
-  const GEMINI_API_KEY = 'AIzaSyAlZ-GzUfjF-UiVsh9q3zZiNYUA0mMgcd0';
-  const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
+  // API key and URL are now imported from config/api.js
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });

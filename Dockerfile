@@ -15,6 +15,9 @@ RUN cd backend && npm install
 # Copy source code
 COPY . .
 
+# Build frontend with production environment variables
+RUN cd frontend && npm run build:prod
+
 # Expose port
 EXPOSE 5010
 

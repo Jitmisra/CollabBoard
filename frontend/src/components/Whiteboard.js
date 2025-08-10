@@ -188,7 +188,6 @@ const Whiteboard = ({ socket, roomId, initialData, showToast }) => {
 
   // Touch events for mobile
   const handleTouchStart = (e) => {
-    e.preventDefault();
     if (currentTool !== 'pen') return;
 
     setIsDrawing(true);
@@ -197,7 +196,6 @@ const Whiteboard = ({ socket, roomId, initialData, showToast }) => {
   };
 
   const handleTouchMove = (e) => {
-    e.preventDefault();
     if (!isDrawing || currentTool !== 'pen') return;
 
     const pos = getTouchPos(e);
@@ -229,7 +227,6 @@ const Whiteboard = ({ socket, roomId, initialData, showToast }) => {
   };
 
   const handleTouchEnd = (e) => {
-    e.preventDefault();
     setIsDrawing(false);
     lastPointRef.current = null;
   };

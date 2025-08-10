@@ -94,7 +94,11 @@ ralwayhackathon/
 The frontend automatically connects to the correct backend URL:
 
 - **Development**: http://localhost:5010
-- **Production**: https://www.web-production-09dde.up.railway.app
+- **Production**: https://web-production-09dde.up.railway.app
+
+Environment variables are automatically set during the build process:
+- `REACT_APP_API_BASE_URL`: Backend API URL
+- `REACT_APP_SOCKET_URL`: WebSocket connection URL
 
 ### Environment Variables
 

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { SOCIAL_URLS, FRONTEND_URL } from '../config/api';
 
 const ExportShare = ({ socket, roomId, showToast }) => {
   const [isExporting, setIsExporting] = useState(false);
@@ -105,7 +106,7 @@ const ExportShare = ({ socket, roomId, showToast }) => {
   };
 
   const generateShareableLink = () => {
-    const baseUrl = window.location.origin;
+    const baseUrl = FRONTEND_URL;
     const link = `${baseUrl}/room/${roomId}?shared=true&timestamp=${Date.now()}`;
     setShareableLink(link);
     
@@ -123,19 +124,19 @@ const ExportShare = ({ socket, roomId, showToast }) => {
 
   const shareToSocial = (platform) => {
     const text = `Check out this collaborative whiteboard session! Room: ${roomId}`;
-    const url = shareableLink || `${window.location.origin}/room/${roomId}`;
+    const url = shareableLink || `${FRONTEND_URL}/room/${roomId}`;
     
     let shareUrl = '';
     
     switch (platform) {
       case 'twitter':
-        shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+        shareUrl = `${SOCIAL_URLS.TWITTER}?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
         break;
       case 'linkedin':
-        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+        shareUrl = `${SOCIAL_URLS.LINKEDIN}/?url=${encodeURIComponent(url)}`;
         break;
       case 'facebook':
-        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+        shareUrl = `${SOCIAL_URLS.FACEBOOK}?u=${encodeURIComponent(url)}`;
         break;
       case 'email':
         shareUrl = `mailto:?subject=${encodeURIComponent('Collaborative Whiteboard Session')}&body=${encodeURIComponent(`${text}\n\n${url}`)}`;
