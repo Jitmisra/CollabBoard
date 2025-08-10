@@ -1,167 +1,177 @@
-# Real-Time Collaboration Whiteboard + Notes App
+# Real-Time Collaborative Whiteboard & Notes App
 
-A full-stack collaborative whiteboard and notes application built with React.js, Node.js, Express, MongoDB, and Socket.io.
+A feature-rich real-time collaboration platform with whiteboard drawing, notes, chat, and AI-powered features.
 
-## Features
+## 🚀 Features
 
-- **Real-time Whiteboard**: Draw collaboratively with multiple users
-- **Collaborative Notes**: Text editor with real-time synchronization
-- **Room-based Collaboration**: Multiple isolated rooms
-- **User Management**: See connected users in real-time
-- **Export Functionality**: Download whiteboard as PNG and notes as text
-- **Auto-save**: Persistent storage in MongoDB
-- **Responsive Design**: Works on desktop and mobile
+- **Real-time Whiteboard**: Collaborative drawing with multiple tools
+- **Live Notes**: Synchronized text editing
+- **AI Integration**: Gemini API for text recognition and chat assistance
+- **Voice Chat**: Real-time audio communication
+- **Screen Sharing**: Present your screen to collaborators
+- **File Upload**: Share documents and images
+- **Polls & Voting**: Interactive decision-making tools
+- **Timer & Pomodoro**: Productivity features
+- **Code Editor**: Collaborative coding with syntax highlighting
+- **Mind Maps**: AI-generated visual brainstorming
+- **Export & Share**: Save and share your work
+- **Themes & Customization**: Personalize your workspace
 
-## Tech Stack
+## 🛠️ Tech Stack
 
-- **Frontend**: React.js, Tailwind CSS, Socket.io-client
-- **Backend**: Node.js, Express, Socket.io, Mongoose
-- **Database**: MongoDB
-- **Deployment**: Railway-ready configuration
+- **Frontend**: React, Socket.io-client, Tailwind CSS
+- **Backend**: Node.js, Express, Socket.io
+- **Database**: MongoDB (with fallback to in-memory storage)
+- **AI**: Google Gemini API
+- **Deployment**: Railway
 
-## Local Development
+## 🚀 Quick Start
 
-### Prerequisites
-- Node.js (v16 or higher)
-- MongoDB (local or cloud instance)
-- npm or yarn
+### Development
 
-### Setup
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd ralwayhackathon
+   ```
 
-1. **Clone and install dependencies**
-```bash
-# Install backend dependencies
-cd backend
-npm install
+2. **Start development environment**
+   ```bash
+   chmod +x start-dev.sh
+   ./start-dev.sh
+   ```
 
-# Install frontend dependencies
-cd ../frontend
-npm install
+3. **Access the application**
+   - Frontend: http://localhost:3000
+   - Backend: http://localhost:5010
+
+### Production Deployment
+
+The app is configured for Railway deployment with the following setup:
+
+- **Backend URL**: https://www.web-production-09dde.up.railway.app
+- **Frontend**: Configured to connect to the Railway backend
+
+#### Railway Environment Variables
+
+Set these in your Railway project:
+
+```env
+NODE_ENV=production
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret_key
+GEMINI_API_KEY=your_gemini_api_key
 ```
 
-2. **Environment Variables**
-Create `backend/.env`:
-```
-MONGODB_URI=mongodb://localhost:27017/whiteboard-app
-PORT=5010
-NODE_ENV=development
-```
-
-3. **Start MongoDB**
-```bash
-# If using local MongoDB
-mongod
-```
-
-4. **Run the application**
-
-**Option 1: Use the convenience script**
-```bash
-./start-dev.sh
-```
-
-**Option 2: Manual start**
-```bash
-# Terminal 1: Start backend
-cd backend
-npm run dev
-
-# Terminal 2: Start frontend
-cd frontend
-npm start
-```
-
-5. **Access the app**
-- Frontend: http://localhost:3000
-- Backend: http://localhost:5010
-
-## Railway Deployment
-
-1. **Connect your GitHub repo to Railway**
-2. **Set environment variables in Railway dashboard**:
-   - `MONGODB_URI`: Your MongoDB connection string
-   - `NODE_ENV`: production
-
-3. **Deploy**: Railway will automatically detect and deploy both frontend and backend
-
-## Project Structure
+## 📁 Project Structure
 
 ```
-├── frontend/                 # React.js frontend
-│   ├── src/
-│   │   ├── components/      # React components
-│   │   ├── hooks/          # Custom hooks
-│   │   └── utils/          # Utility functions
-│   └── package.json
-├── backend/                 # Node.js backend
-│   ├── models/             # MongoDB models
-│   ├── routes/             # Express routes
-│   ├── middleware/         # Custom middleware
+ralwayhackathon/
+├── backend/                 # Node.js/Express backend
+│   ├── models/             # MongoDB schemas
+│   ├── routes/             # API endpoints
+│   ├── middleware/         # Authentication & validation
+│   ├── utils/              # Helper functions
 │   └── server.js           # Main server file
-├── railway.json            # Railway deployment config
-└── README.md
+├── frontend/               # React frontend
+│   ├── src/
+│   │   ├── components/     # React components
+│   │   ├── pages/          # Page components
+│   │   ├── contexts/       # React contexts
+│   │   ├── hooks/          # Custom hooks
+│   │   ├── config/         # Configuration files
+│   │   └── utils/          # Utility functions
+│   └── public/             # Static assets
+├── package.json            # Root package.json for deployment
+├── Procfile               # Railway deployment configuration
+└── railway.json           # Railway project configuration
 ```
 
-## API Endpoints
+## 🔧 Configuration
 
-- `POST /api/rooms/join` - Join or create a room
-- `GET /api/rooms/:roomId` - Get room data
-- `PUT /api/rooms/:roomId/whiteboard` - Save whiteboard data
-- `PUT /api/rooms/:roomId/notes` - Save notes data
+### API Configuration
 
-## Socket Events
+The frontend automatically connects to the correct backend URL:
 
-- `join-room` - Join a specific room
-- `drawing` - Broadcast drawing data
-- `notes-change` - Broadcast notes changes
-- `user-joined` - Notify when user joins
-- `user-left` - Notify when user leaves
-- `users-update` - Update connected users list
-## Troubles
-hooting
+- **Development**: http://localhost:5010
+- **Production**: https://www.web-production-09dde.up.railway.app
+
+### Environment Variables
+
+#### Backend (.env)
+```env
+NODE_ENV=development
+PORT=5010
+MONGODB_URI=mongodb://localhost:27017/whiteboard-app
+JWT_SECRET=your-secret-key-change-in-production
+GEMINI_API_KEY=your-gemini-api-key
+```
+
+#### Frontend
+The frontend uses the API configuration in `src/config/api.js` which automatically detects the environment.
+
+## 🎯 Usage
+
+1. **Join a Room**: Enter a room ID or create a new one
+2. **Collaborate**: Use the whiteboard, notes, and chat features
+3. **AI Features**: Try text recognition, AI chat, and mind map generation
+4. **Share**: Export your work or generate shareable links
+
+## 🔒 Security
+
+- JWT-based authentication
+- CORS protection
+- Input validation and sanitization
+- Rate limiting (can be added)
+- Secure WebSocket connections
+
+## 🚀 Deployment Status
+
+- ✅ Backend deployed to Railway
+- ✅ Frontend configured for Railway backend
+- ✅ CORS configured for production
+- ✅ Environment variables set up
+- ✅ Database connection with fallback
+- ✅ Docker configuration for reliable deployment
+- ✅ Railway configuration optimized for monorepo
+
+## 🐛 Troubleshooting
 
 ### Common Issues
 
-1. **Backend connection errors (403 Forbidden)**
-   - Make sure the backend server is running on port 5010
-   - Check that MongoDB is running locally
-   - Verify the .env file exists in the backend folder
+1. **Backend not starting**: Check if the `backend` directory exists and has proper permissions
+2. **Database connection**: Ensure MongoDB URI is correct or the app will use in-memory storage
+3. **CORS errors**: Verify the frontend URL is in the allowed origins list
+4. **Socket connection**: Check if the backend URL is correctly configured in the frontend
 
-2. **MongoDB connection issues**
-   ```bash
-   # Start MongoDB (macOS with Homebrew)
-   brew services start mongodb/brew/mongodb-community
-   
-   # Or start manually
-   mongod
-   ```
+### Railway Deployment
 
-3. **Port conflicts**
-   - Backend runs on port 5010
-   - Frontend runs on port 3000
-   - Make sure these ports are available
+The app is now configured with Docker for reliable deployment:
 
-4. **CORS errors**
-   - The backend is configured for localhost:3000 and localhost:3001
-   - If using a different port, update the CORS settings in backend/server.js
+1. **Docker Build**: Uses `Dockerfile` for consistent builds
+2. **Monorepo Support**: Properly handles frontend/backend structure
+3. **Environment Variables**: Set in Railway dashboard
+4. **Health Check**: Configured at `/health` endpoint
 
-5. **React Hook warnings**
-   - These are development warnings and don't affect functionality
-   - The app will still work correctly
+If you encounter build issues:
 
-### Development Commands
+1. Check that all files are committed to the repository
+2. Verify environment variables are set in Railway
+3. Check the build logs for specific error messages
+4. The Docker configuration should handle most deployment issues automatically
 
-```bash
-# Install all dependencies
-cd backend && npm install
-cd ../frontend && npm install
+## 📝 License
 
-# Start backend only
-cd backend && npm run dev
+MIT License - feel free to use this project for your own applications!
 
-# Start frontend only
-cd frontend && npm start
+## 🤝 Contributing
 
-# Start both with one command
-./start-dev.sh
-```
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+---
+
+**Built for Railway Hackathon 2024** 🚂✨

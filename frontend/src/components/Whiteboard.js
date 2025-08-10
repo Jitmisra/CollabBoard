@@ -1,5 +1,7 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { exportCanvasAsPNG, generateTimestampedFilename } from '../utils/export';
+import CursorTracker from './CursorTracker';
+import StickyNotes from './StickyNotes';
 
 const Whiteboard = ({ socket, roomId, initialData, showToast }) => {
   const canvasRef = useRef(null);
@@ -7,10 +9,15 @@ const Whiteboard = ({ socket, roomId, initialData, showToast }) => {
   const [currentTool, setCurrentTool] = useState('pen');
   const [currentColor, setCurrentColor] = useState('#000000');
   const [currentSize, setCurrentSize] = useState(3);
+  const [isErasing, setIsErasing] = useState(false);
+  const [shapes, setShapes] = useState([]);
+  const [isDrawingShape, setIsDrawingShape] = useState(false);
+  const [shapeStart, setShapeStart] = useState(null);
   const [drawingData, setDrawingData] = useState([]);
 
   // Drawing state
   const lastPointRef = useRef(null);
+  const containerRef = useRef(null);
 
   // Colors palette
   const colors = [
@@ -259,8 +266,8 @@ const Whiteboard = ({ socket, roomId, initialData, showToast }) => {
           {/* Tool selector */}
           <div className="flex items-center space-x-2">
             <button
-              onClick={() => setCurrentTool('pen')}
-              className={`p-2 rounded-lg transition-colors ${currentTool === 'pen'
+              onClick={() => { setCurrentTool('pen'); setIsErasing(false); }}
+              className={`p-2 rounded-lg transition-colors ${currentTool === 'pen' && !isErasing
                 ? 'bg-primary-600 text-white'
                 : 'bg-white text-gray-600 hover:bg-gray-100'
                 }`}
@@ -268,6 +275,45 @@ const Whiteboard = ({ socket, roomId, initialData, showToast }) => {
             >
               <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+              </svg>
+            </button>
+            
+            <button
+              onClick={() => { setCurrentTool('eraser'); setIsErasing(true); }}
+              className={`p-2 rounded-lg transition-colors ${currentTool === 'eraser'
+                ? 'bg-red-600 text-white'
+                : 'bg-white text-gray-600 hover:bg-gray-100'
+                }`}
+              title="Eraser Tool"
+            >
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            </button>
+
+            <button
+              onClick={() => { setCurrentTool('rectangle'); setIsErasing(false); }}
+              className={`p-2 rounded-lg transition-colors ${currentTool === 'rectangle'
+                ? 'bg-primary-600 text-white'
+                : 'bg-white text-gray-600 hover:bg-gray-100'
+                }`}
+              title="Rectangle Tool"
+            >
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+              </svg>
+            </button>
+
+            <button
+              onClick={() => { setCurrentTool('circle'); setIsErasing(false); }}
+              className={`p-2 rounded-lg transition-colors ${currentTool === 'circle'
+                ? 'bg-primary-600 text-white'
+                : 'bg-white text-gray-600 hover:bg-gray-100'
+                }`}
+              title="Circle Tool"
+            >
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10"/>
               </svg>
             </button>
           </div>
@@ -339,7 +385,7 @@ const Whiteboard = ({ socket, roomId, initialData, showToast }) => {
       </div>
 
       {/* Canvas */}
-      <div className="flex-1 overflow-hidden canvas-container">
+      <div className="flex-1 overflow-hidden canvas-container relative" ref={containerRef}>
         <canvas
           ref={canvasRef}
           className="w-full h-full cursor-crosshair"
@@ -350,6 +396,22 @@ const Whiteboard = ({ socket, roomId, initialData, showToast }) => {
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
+        />
+        
+        {/* Cursor Tracker */}
+        <CursorTracker 
+          socket={socket} 
+          roomId={roomId} 
+          currentUser={{ username: 'Current User' }} 
+          containerRef={containerRef} 
+        />
+        
+        {/* Sticky Notes */}
+        <StickyNotes 
+          socket={socket} 
+          roomId={roomId} 
+          containerRef={containerRef} 
+          showToast={showToast} 
         />
       </div>
 

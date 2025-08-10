@@ -1,54 +1,63 @@
 #!/bin/bash
 
-# Start development servers for the whiteboard app
+echo "🚀 Starting Whiteboard App Development Environment..."
 
-echo "🚀 Starting Whiteboard App Development Servers..."
-
-# Check if we're using MongoDB Atlas (skip local MongoDB check)
-if grep -q "mongodb+srv" backend/.env 2>/dev/null; then
-    echo "📡 Using MongoDB Atlas (cloud database)"
-else
-    # Check if MongoDB is running locally
-    if ! pgrep -x "mongod" > /dev/null; then
-        echo "⚠️  MongoDB is not running. Please start MongoDB first:"
-        echo "   brew services start mongodb/brew/mongodb-community"
-        echo "   or"
-        echo "   mongod"
-        exit 1
-    fi
+# Check if backend directory exists
+if [ ! -d "backend" ]; then
+    echo "❌ Backend directory not found!"
+    exit 1
 fi
 
-# Function to kill background processes on exit
-cleanup() {
-    echo "🧹 Cleaning up..."
-    kill $BACKEND_PID $FRONTEND_PID 2>/dev/null
-    exit
-}
+# Check if frontend directory exists
+if [ ! -d "frontend" ]; then
+    echo "❌ Frontend directory not found!"
+    exit 1
+fi
 
-# Set up trap to cleanup on script exit
-trap cleanup EXIT INT TERM
-
-# Start backend server
-echo "📡 Starting backend server on port 5010..."
+# Install backend dependencies
+echo "📦 Installing backend dependencies..."
 cd backend
-npm run dev &
+npm install
+if [ $? -ne 0 ]; then
+    echo "❌ Failed to install backend dependencies"
+    exit 1
+fi
+
+# Install frontend dependencies
+echo "📦 Installing frontend dependencies..."
+cd ../frontend
+npm install
+if [ $? -ne 0 ]; then
+    echo "❌ Failed to install frontend dependencies"
+    exit 1
+fi
+
+# Start backend in background
+echo "🔧 Starting backend server..."
+cd ../backend
+npm start &
 BACKEND_PID=$!
 
 # Wait a moment for backend to start
 sleep 3
 
-# Start frontend server
-echo "🎨 Starting frontend server on port 3000..."
+# Start frontend
+echo "🎨 Starting frontend development server..."
 cd ../frontend
 npm start &
 FRONTEND_PID=$!
 
-echo ""
-echo "✅ Both servers are starting up!"
-echo "📡 Backend: http://localhost:5010"
-echo "🎨 Frontend: http://localhost:3000"
+echo "✅ Development environment started!"
+echo "🌐 Frontend: http://localhost:3000"
+echo "🔧 Backend: http://localhost:5010"
 echo ""
 echo "Press Ctrl+C to stop both servers"
 
-# Wait for both processes
+# Wait for user to stop
 wait
+
+# Cleanup
+echo "🛑 Stopping servers..."
+kill $BACKEND_PID 2>/dev/null
+kill $FRONTEND_PID 2>/dev/null
+echo "✅ Servers stopped"

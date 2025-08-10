@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { SocketProvider } from './contexts/SocketContext';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -14,15 +14,21 @@ import WhiteboardRoom from './pages/WhiteboardRoom';
 import RoomBrowser from './pages/RoomBrowser';
 import Toast from './components/Toast';
 import { useToast } from './hooks/useToast';
+import './styles/components.css';
 
 function AppContent() {
   const { toast, showToast, hideToast } = useToast();
+  const location = useLocation();
+  
+  // Check if current route is a whiteboard room
+  const isWhiteboardRoom = location.pathname.startsWith('/room/');
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navbar showToast={showToast} />
+      {/* Only show Navbar if not in whiteboard room */}
+      {!isWhiteboardRoom && <Navbar showToast={showToast} />}
       
-      <main className="pt-16">
+      <main className={!isWhiteboardRoom ? "pt-16" : ""}>
         <Routes>
           {/* Public routes */}
           <Route path="/" element={<Home />} />
