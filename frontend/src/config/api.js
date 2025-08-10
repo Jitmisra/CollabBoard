@@ -1,15 +1,18 @@
 // API configuration - all URLs from environment variables
 export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 
   (process.env.NODE_ENV === 'production' 
-    ? process.env.REACT_APP_RAILWAY_URL || 'https://web-production-09dde.up.railway.app'
-    : process.env.REACT_APP_DEV_URL || 'http://localhost:5010');
+    ? 'https://web-production-09dde.up.railway.app'
+    : ''); // Use proxy in development
 
-export const SOCKET_URL = process.env.REACT_APP_SOCKET_URL || API_BASE_URL;
+export const SOCKET_URL = process.env.REACT_APP_SOCKET_URL || 
+  (process.env.NODE_ENV === 'production' 
+    ? 'https://web-production-09dde.up.railway.app'
+    : 'http://localhost:5010'); // Direct connection for WebSocket
 
 // Frontend URL for sharing and links
 export const FRONTEND_URL = process.env.REACT_APP_FRONTEND_URL || 
   (process.env.NODE_ENV === 'production' 
-    ? window.location.origin || 'https://collab-board-jade.vercel.app'
+    ? 'https://collab-board-jade.vercel.app'
     : 'http://localhost:3000');
 
 // Additional environment variables

@@ -70,11 +70,22 @@ router.post('/register', async (req, res) => {
 // Login user
 router.post('/login', async (req, res) => {
   try {
+    console.log('🔍 Login request received:', {
+      method: req.method,
+      url: req.url,
+      headers: req.headers,
+      body: { ...req.body, password: '[HIDDEN]' },
+      timestamp: new Date().toISOString()
+    });
+
     const { username, password } = req.body;
 
     if (!username || !password) {
+      console.log('❌ Login validation failed: missing username or password');
       return res.status(400).json({ error: 'Username and password are required' });
     }
+
+    console.log('🔍 Looking for user with username/email:', username);
 
     // Find user by username or email
     const user = await User.findOne({
@@ -85,14 +96,20 @@ router.post('/login', async (req, res) => {
     });
 
     if (!user) {
+      console.log('❌ User not found for:', username);
       return res.status(401).json({ error: 'Invalid credentials' });
     }
+
+    console.log('✅ User found:', { id: user._id, username: user.username, email: user.email });
 
     // Check password
     const isPasswordValid = await user.comparePassword(password);
     if (!isPasswordValid) {
+      console.log('❌ Invalid password for user:', username);
       return res.status(401).json({ error: 'Invalid credentials' });
     }
+
+    console.log('✅ Password validated successfully');
 
     // Update last login
     user.lastLogin = new Date();
@@ -105,6 +122,8 @@ router.post('/login', async (req, res) => {
       { expiresIn: '7d' }
     );
 
+    console.log('✅ Login successful for user:', username);
+
     res.json({
       success: true,
       message: 'Login successful',
@@ -113,7 +132,11 @@ router.post('/login', async (req, res) => {
     });
 
   } catch (error) {
-    console.error('Login error:', error);
+    console.error('❌ Login error:', {
+      message: error.message,
+      stack: error.stack,
+      timestamp: new Date().toISOString()
+    });
     res.status(500).json({ 
       error: 'Failed to login',
       details: process.env.NODE_ENV === 'development' ? error.message : undefined

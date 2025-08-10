@@ -20,7 +20,13 @@ const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
     origin: process.env.NODE_ENV === 'production' 
-      ? ["https://www.web-production-09dde.up.railway.app", "https://web-production-09dde.up.railway.app", "https://your-frontend-domain.railway.app", "https://collab-board-jade.vercel.app"] 
+      ? [
+          "https://www.web-production-09dde.up.railway.app", 
+          "https://web-production-09dde.up.railway.app", 
+          "https://your-frontend-domain.railway.app", 
+          "https://collab-board-jade.vercel.app",
+          "https://www.collab-board-jade.vercel.app"
+        ] 
       : ["http://localhost:3000", "http://localhost:3001", "http://127.0.0.1:3000", "http://127.0.0.1:3001"],
     methods: ["GET", "POST"],
     credentials: true
@@ -32,7 +38,13 @@ app.use(helmet());
 app.use(compression());
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? ["https://www.web-production-09dde.up.railway.app", "https://web-production-09dde.up.railway.app", "https://your-frontend-domain.railway.app", "https://collab-board-jade.vercel.app"] 
+    ? [
+        "https://www.web-production-09dde.up.railway.app", 
+        "https://web-production-09dde.up.railway.app", 
+        "https://your-frontend-domain.railway.app", 
+        "https://collab-board-jade.vercel.app",
+        "https://www.collab-board-jade.vercel.app"
+      ] 
     : ["http://localhost:3000", "http://localhost:3001", "http://127.0.0.1:3000", "http://127.0.0.1:3001"],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
@@ -114,7 +126,13 @@ app.get('/health', (req, res) => {
     environment: process.env.NODE_ENV || 'development',
     cors: {
       allowedOrigins: process.env.NODE_ENV === 'production' 
-        ? ["https://www.web-production-09dde.up.railway.app", "https://web-production-09dde.up.railway.app", "https://your-frontend-domain.railway.app", "https://collab-board-jade.vercel.app"] 
+        ? [
+            "https://www.web-production-09dde.up.railway.app", 
+            "https://web-production-09dde.up.railway.app", 
+            "https://your-frontend-domain.railway.app", 
+            "https://collab-board-jade.vercel.app",
+            "https://www.collab-board-jade.vercel.app"
+          ] 
         : ["http://localhost:3000", "http://localhost:3001", "http://127.0.0.1:3000", "http://127.0.0.1:3001"]
     },
     origin: req.headers.origin || 'no-origin',
@@ -135,21 +153,56 @@ if (process.env.NODE_ENV === 'production') {
 
 // Test endpoint for debugging
 app.get('/api/test', (req, res) => {
+  console.log('🔍 Test endpoint hit:', {
+    method: req.method,
+    url: req.url,
+    headers: req.headers,
+    timestamp: new Date().toISOString()
+  });
+  
   res.json({ 
     message: 'Backend is working!', 
     timestamp: new Date().toISOString(),
-    port: PORT,
+    port: process.env.PORT || 5010,
     cors: 'enabled',
-    origin: req.headers.origin || 'no-origin'
+    origin: req.headers.origin || 'no-origin',
+    environment: process.env.NODE_ENV || 'development',
+    mongodb: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
   });
 });
 
 // Auth test endpoint
 app.get('/api/auth/test', (req, res) => {
+  console.log('🔍 Auth test endpoint hit:', {
+    method: req.method,
+    url: req.url,
+    headers: req.headers,
+    timestamp: new Date().toISOString()
+  });
+  
   res.json({ 
     message: 'Auth endpoint is accessible!', 
     timestamp: new Date().toISOString(),
     origin: req.headers.origin || 'no-origin',
+    cors: 'enabled',
+    environment: process.env.NODE_ENV || 'development'
+  });
+});
+
+// Debug endpoint for login testing
+app.post('/api/auth/debug', (req, res) => {
+  console.log('🔍 Debug endpoint hit:', {
+    method: req.method,
+    url: req.url,
+    headers: req.headers,
+    body: req.body,
+    timestamp: new Date().toISOString()
+  });
+  
+  res.json({ 
+    message: 'Debug endpoint working!', 
+    receivedData: req.body,
+    timestamp: new Date().toISOString(),
     cors: 'enabled'
   });
 });

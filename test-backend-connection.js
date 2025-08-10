@@ -1,37 +1,63 @@
 // Test script to verify backend connection
-const API_BASE_URL = 'https://web-production-09dde.up.railway.app';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 
+  (process.env.NODE_ENV === 'production' 
+    ? 'https://web-production-09dde.up.railway.app'
+    : 'http://localhost:5010');
 
 async function testBackendConnection() {
   console.log('🔍 Testing backend connection...');
+  console.log('🔍 API Base URL:', API_BASE_URL);
   
+  const endpoints = [
+    '/health',
+    '/api/test',
+    '/api/auth/test'
+  ];
+
+  for (const endpoint of endpoints) {
+    try {
+      console.log(`\n🔍 Testing: ${API_BASE_URL}${endpoint}`);
+      const response = await fetch(`${API_BASE_URL}${endpoint}`);
+      const data = await response.json();
+      console.log(`✅ ${endpoint}:`, data);
+    } catch (error) {
+      console.error(`❌ ${endpoint} failed:`, error.message);
+    }
+  }
+
+  // Test POST request to debug endpoint
   try {
-    // Test health endpoint
-    console.log('\n1. Testing health endpoint...');
-    const healthResponse = await fetch(`${API_BASE_URL}/health`);
-    const healthData = await healthResponse.json();
-    console.log('✅ Health endpoint:', healthData);
-    
-    // Test auth endpoint
-    console.log('\n2. Testing auth endpoint...');
-    const authResponse = await fetch(`${API_BASE_URL}/api/auth/login`, {
+    console.log(`\n🔍 Testing POST: ${API_BASE_URL}/api/auth/debug`);
+    const response = await fetch(`${API_BASE_URL}/api/auth/debug`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'Origin': 'https://collab-board-jade.vercel.app'
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ username: 'test', password: 'test' })
+      body: JSON.stringify({ test: 'data' })
     });
-    const authData = await authResponse.json();
-    console.log('✅ Auth endpoint:', authData);
-    
-    // Test CORS headers
-    console.log('\n3. Testing CORS headers...');
-    console.log('Access-Control-Allow-Origin:', authResponse.headers.get('access-control-allow-origin'));
-    console.log('Access-Control-Allow-Methods:', authResponse.headers.get('access-control-allow-methods'));
-    console.log('Access-Control-Allow-Headers:', authResponse.headers.get('access-control-allow-headers'));
-    
+    const data = await response.json();
+    console.log(`✅ POST /api/auth/debug:`, data);
   } catch (error) {
-    console.error('❌ Connection failed:', error.message);
+    console.error(`❌ POST /api/auth/debug failed:`, error.message);
+  }
+
+  // Test actual login endpoint
+  try {
+    console.log(`\n🔍 Testing login endpoint: ${API_BASE_URL}/api/auth/login`);
+    const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ 
+        username: 'testuser', 
+        password: 'testpass' 
+      })
+    });
+    const data = await response.json();
+    console.log(`✅ Login endpoint response:`, data);
+  } catch (error) {
+    console.error(`❌ Login endpoint failed:`, error.message);
   }
 }
 

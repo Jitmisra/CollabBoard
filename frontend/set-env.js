@@ -27,3 +27,7 @@ fs.writeFileSync(envPath, envContent);
 console.log('✅ Environment variables set for frontend build:');
 console.log(envContent);
 console.log(`📁 Written to: ${envPath}`);
+console.log('\n🔗 Production URLs:');
+console.log(`   Backend: ${envVars.REACT_APP_API_BASE_URL}`);
+console.log(`   Frontend: ${envVars.REACT_APP_FRONTEND_URL}`);
+console.log(`   WebSocket: ${envVars.REACT_APP_SOCKET_URL}`);

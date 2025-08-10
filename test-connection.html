@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connection Test</title>
+</head>
+<body>
+    <h1>Frontend-Backend Connection Test</h1>
+    <div id="results"></div>
+
+    <script>
+        const resultsDiv = document.getElementById('results');
+        
+        function addResult(message, isSuccess = true) {
+            const div = document.createElement('div');
+            div.style.padding = '10px';
+            div.style.margin = '5px';
+            div.style.border = '1px solid ' + (isSuccess ? 'green' : 'red');
+            div.style.backgroundColor = isSuccess ? '#e8f5e8' : '#ffe8e8';
+            div.textContent = message;
+            resultsDiv.appendChild(div);
+        }
+
+        async function testConnection() {
+            addResult('🔍 Starting connection tests...');
+            
+            // Test 1: Direct backend connection
+            try {
+                addResult('Testing direct backend connection...');
+                const response = await fetch('http://localhost:5010/api/test');
+                const data = await response.json();
+                addResult('✅ Direct backend connection successful: ' + JSON.stringify(data));
+            } catch (error) {
+                addResult('❌ Direct backend connection failed: ' + error.message, false);
+            }
+            
+            // Test 2: Proxy connection (should work from frontend)
+            try {
+                addResult('Testing proxy connection...');
+                const response = await fetch('/api/test');
+                const data = await response.json();
+                addResult('✅ Proxy connection successful: ' + JSON.stringify(data));
+            } catch (error) {
+                addResult('❌ Proxy connection failed: ' + error.message, false);
+            }
+            
+            // Test 3: Login endpoint test
+            try {
+                addResult('Testing login endpoint...');
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: 'testuser',
+                        password: 'testpass'
+                    })
+                });
+                const data = await response.json();
+                addResult('✅ Login endpoint test successful: ' + JSON.stringify(data));
+            } catch (error) {
+                addResult('❌ Login endpoint test failed: ' + error.message, false);
+            }
+            
+            // Test 4: Environment variables
+            addResult('Environment check: NODE_ENV = ' + (typeof process !== 'undefined' ? process.env.NODE_ENV : 'not available in browser'));
+        }
+
+        // Run tests when page loads
+        window.addEventListener('load', testConnection);
+    </script>
+</body>
+</html>

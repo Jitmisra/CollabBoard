@@ -50,15 +50,33 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (username, password) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+      const apiUrl = `${API_BASE_URL}/api/auth/login`;
+      console.log('🔍 Login attempt - API URL:', apiUrl);
+      console.log('🔍 Environment check:', {
+        NODE_ENV: process.env.NODE_ENV,
+        REACT_APP_API_BASE_URL: process.env.REACT_APP_API_BASE_URL,
+        REACT_APP_RAILWAY_URL: process.env.REACT_APP_RAILWAY_URL,
+        REACT_APP_DEV_URL: process.env.REACT_APP_DEV_URL,
+        API_BASE_URL: API_BASE_URL,
+        finalUrl: apiUrl
+      });
+
+      const requestBody = { username, password };
+      console.log('🔍 Request body:', { ...requestBody, password: '[HIDDEN]' });
+
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify(requestBody)
       });
 
+      console.log('🔍 Response status:', response.status);
+      console.log('🔍 Response headers:', Object.fromEntries(response.headers.entries()));
+
       const data = await response.json();
+      console.log('🔍 Response data:', data);
 
       if (response.ok) {
         setUser(data.user);
@@ -69,7 +87,13 @@ export const AuthProvider = ({ children }) => {
         return { success: false, error: data.error };
       }
     } catch (error) {
-      console.error('Login error:', error);
+      console.error('❌ Login error details:', {
+        name: error.name,
+        message: error.message,
+        stack: error.stack,
+        API_BASE_URL: API_BASE_URL,
+        fullUrl: `${API_BASE_URL}/api/auth/login`
+      });
       return { success: false, error: 'Network error. Please try again.' };
     }
   };
