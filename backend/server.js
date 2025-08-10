@@ -20,7 +20,7 @@ const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
     origin: process.env.NODE_ENV === 'production' 
-      ? ["https://www.web-production-09dde.up.railway.app", "https://web-production-09dde.up.railway.app", "https://your-frontend-domain.railway.app"] 
+      ? ["https://www.web-production-09dde.up.railway.app", "https://web-production-09dde.up.railway.app", "https://your-frontend-domain.railway.app", "https://collab-board-jade.vercel.app"] 
       : ["http://localhost:3000", "http://localhost:3001", "http://127.0.0.1:3000", "http://127.0.0.1:3001"],
     methods: ["GET", "POST"],
     credentials: true
@@ -32,7 +32,7 @@ app.use(helmet());
 app.use(compression());
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? ["https://www.web-production-09dde.up.railway.app", "https://web-production-09dde.up.railway.app", "https://your-frontend-domain.railway.app"] 
+    ? ["https://www.web-production-09dde.up.railway.app", "https://web-production-09dde.up.railway.app", "https://your-frontend-domain.railway.app", "https://collab-board-jade.vercel.app"] 
     : ["http://localhost:3000", "http://localhost:3001", "http://127.0.0.1:3000", "http://127.0.0.1:3001"],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],

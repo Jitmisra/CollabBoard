@@ -58,16 +58,25 @@ npm run build
 npm run setup-env
 ```
 
-## Railway Deployment
+## Production Deployment
 
-For Railway deployment, these variables are automatically configured:
+### Railway Backend + Vercel Frontend
+
+For the current setup (Railway backend + Vercel frontend), these variables are configured:
 
 ```env
 REACT_APP_API_BASE_URL=https://web-production-09dde.up.railway.app
 REACT_APP_SOCKET_URL=https://web-production-09dde.up.railway.app
-REACT_APP_FRONTEND_URL=https://web-production-09dde.up.railway.app
+REACT_APP_FRONTEND_URL=https://collab-board-jade.vercel.app
 REACT_APP_GEMINI_API_URL=https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent
 ```
+
+### CORS Configuration
+
+The backend CORS is configured to accept requests from:
+- `https://collab-board-jade.vercel.app` (Vercel frontend)
+- `https://web-production-09dde.up.railway.app` (Railway backend)
+- `http://localhost:3000` (local development)
 
 ## Development
 

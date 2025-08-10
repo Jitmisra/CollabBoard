@@ -9,7 +9,7 @@ export const SOCKET_URL = process.env.REACT_APP_SOCKET_URL || API_BASE_URL;
 // Frontend URL for sharing and links
 export const FRONTEND_URL = process.env.REACT_APP_FRONTEND_URL || 
   (process.env.NODE_ENV === 'production' 
-    ? 'https://web-production-09dde.up.railway.app'
+    ? window.location.origin || 'https://collab-board-jade.vercel.app'
     : 'http://localhost:3000');
 
 // Additional environment variables

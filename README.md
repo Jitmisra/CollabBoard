@@ -47,10 +47,11 @@ A feature-rich real-time collaboration platform with whiteboard drawing, notes, 
 
 ### Production Deployment
 
-The app is configured for Railway deployment with the following setup:
+The app is configured for Railway backend + Vercel frontend deployment:
 
-- **Backend URL**: https://www.web-production-09dde.up.railway.app
-- **Frontend**: Configured to connect to the Railway backend
+- **Backend URL**: https://web-production-09dde.up.railway.app (Railway)
+- **Frontend URL**: https://collab-board-jade.vercel.app (Vercel)
+- **CORS**: Configured to allow Vercel frontend to connect to Railway backend
 
 #### Railway Environment Variables
 
@@ -94,7 +95,7 @@ ralwayhackathon/
 The frontend automatically connects to the correct backend URL:
 
 - **Development**: http://localhost:5010
-- **Production**: https://web-production-09dde.up.railway.app
+- **Production**: https://web-production-09dde.up.railway.app (Railway backend)
 
 Environment variables are automatically set during the build process:
 - `REACT_APP_API_BASE_URL`: Backend API URL
