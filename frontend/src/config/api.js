@@ -2,7 +2,7 @@
 export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 
   (process.env.NODE_ENV === 'production' 
     ? 'https://web-production-09dde.up.railway.app'
-    : ''); // Use proxy in development
+    : 'http://localhost:5010'); // Direct connection to backend in development
 
 export const SOCKET_URL = process.env.REACT_APP_SOCKET_URL || 
   (process.env.NODE_ENV === 'production' 

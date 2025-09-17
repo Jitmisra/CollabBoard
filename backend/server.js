@@ -114,6 +114,12 @@ const connectDB = async () => {
 
 connectDB();
 
+// Add memory store to request object for fallback
+app.use((req, res, next) => {
+  req.memoryStore = memoryStore;
+  next();
+});
+
 // Routes
 app.use('/api/rooms', roomRoutes);
 app.use('/api/auth', authRoutes);

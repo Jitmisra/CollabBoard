@@ -9,7 +9,10 @@ const SOCKET_OPTIONS = {
   reconnection: true,
   reconnectionDelay: 1000,
   reconnectionAttempts: 5,
-  maxReconnectionAttempts: 5
+  maxReconnectionAttempts: 5,
+  // Ensure we don't use the proxy for socket connections
+  autoConnect: true,
+  upgrade: true
 };
 
 export const useSocket = () => {
@@ -17,6 +20,7 @@ export const useSocket = () => {
 
   useEffect(() => {
     // Create socket connection
+    console.log('🔌 Connecting to socket server:', SOCKET_URL);
     const newSocket = io(SOCKET_URL, SOCKET_OPTIONS);
 
     // Connection event handlers

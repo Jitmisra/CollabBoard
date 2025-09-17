@@ -100,6 +100,9 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (userData) => {
     try {
+      console.log('Attempting registration to:', `${API_BASE_URL}/api/auth/register`);
+      console.log('Registration data:', { ...userData, password: '[HIDDEN]' });
+      
       const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
         method: 'POST',
         headers: {
@@ -108,19 +111,32 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify(userData)
       });
 
-      const data = await response.json();
+      console.log('Registration response status:', response.status);
 
-      if (response.ok) {
-        setUser(data.user);
-        setToken(data.token);
-        localStorage.setItem('token', data.token);
-        return { success: true, message: data.message };
-      } else {
-        return { success: false, error: data.error };
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Registration failed:', errorText);
+        try {
+          const errorData = JSON.parse(errorText);
+          return { success: false, error: errorData.error || 'Registration failed' };
+        } catch {
+          return { success: false, error: `Registration failed: ${response.status} ${response.statusText}` };
+        }
       }
+
+      const data = await response.json();
+      console.log('Registration successful:', { ...data, token: '[HIDDEN]' });
+
+      setUser(data.user);
+      setToken(data.token);
+      localStorage.setItem('token', data.token);
+      return { success: true, message: data.message };
     } catch (error) {
       console.error('Registration error:', error);
-      return { success: false, error: 'Network error. Please try again.' };
+      if (error.name === 'TypeError' && error.message.includes('fetch')) {
+        return { success: false, error: `Cannot connect to server. Please check if the backend is running on ${API_BASE_URL}` };
+      }
+      return { success: false, error: `Network error: ${error.message}` };
     }
   };
 
