@@ -4,8 +4,8 @@
   "description": "Real-time collaborative whiteboard and notes application",
   "main": "backend/server.js",
   "scripts": {
-    "start": "cd backend && npm start",
-    "dev": "cd backend && npm run dev",
+    "start": "npm --prefix backend start",
+    "dev": "npm --prefix backend run dev",
     "install-backend": "cd backend && npm install",
     "install-frontend": "cd frontend && npm install",
     "build": "cd frontend && npm run build",

@@ -5,7 +5,7 @@
     "buildCommand": "npm install && cd backend && npm install && cd ../frontend && npm install && npm run build:prod"
   },
   "deploy": {
-    "startCommand": "cd backend && npm start",
+    "startCommand": "npm start",
     "numReplicas": 1,
     "sleepApplication": false,
     "restartPolicyType": "ON_FAILURE",
