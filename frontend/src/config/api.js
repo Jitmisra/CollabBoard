@@ -1,12 +1,12 @@
 // API configuration - all URLs from environment variables
 export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 
   (process.env.NODE_ENV === 'production' 
-    ? 'https://web-production-09dde.up.railway.app'
+    ? 'https://web-production-95b5.up.railway.app'
     : 'http://localhost:5010'); // Direct connection to backend in development
 
 export const SOCKET_URL = process.env.REACT_APP_SOCKET_URL || 
   (process.env.NODE_ENV === 'production' 
-    ? 'https://web-production-09dde.up.railway.app'
+    ? 'https://web-production-95b5.up.railway.app'
     : 'http://localhost:5010'); // Direct connection for WebSocket
 
 // Frontend URL for sharing and links

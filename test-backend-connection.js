@@ -1,7 +1,7 @@
 // Test script to verify backend connection
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 
   (process.env.NODE_ENV === 'production' 
-    ? 'https://web-production-09dde.up.railway.app'
+    ? 'https://web-production-95b5.up.railway.app'
     : 'http://localhost:5010');
 
 async function testBackendConnection() {

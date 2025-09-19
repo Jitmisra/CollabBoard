@@ -21,8 +21,8 @@ const io = socketIo(server, {
   cors: {
     origin: process.env.NODE_ENV === 'production' 
       ? [
-          "https://www.web-production-09dde.up.railway.app", 
-          "https://web-production-09dde.up.railway.app", 
+          "https://www.web-production-95b5.up.railway.app", 
+          "https://web-production-95b5.up.railway.app", 
           "https://web-production-95b5.up.railway.app",
           "https://your-frontend-domain.railway.app", 
           "https://collab-board-jade.vercel.app",
@@ -40,8 +40,8 @@ app.use(compression());
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
     ? [
-        "https://www.web-production-09dde.up.railway.app", 
-        "https://web-production-09dde.up.railway.app", 
+        "https://www.web-production-95b5.up.railway.app", 
+        "https://web-production-95b5.up.railway.app", 
         "https://web-production-95b5.up.railway.app",
         "https://your-frontend-domain.railway.app", 
         "https://collab-board-jade.vercel.app",
@@ -135,8 +135,8 @@ app.get('/health', (req, res) => {
     cors: {
       allowedOrigins: process.env.NODE_ENV === 'production' 
         ? [
-            "https://www.web-production-09dde.up.railway.app", 
-            "https://web-production-09dde.up.railway.app", 
+            "https://www.web-production-95b5.up.railway.app", 
+            "https://web-production-95b5.up.railway.app", 
             "https://web-production-95b5.up.railway.app",
             "https://your-frontend-domain.railway.app", 
             "https://collab-board-jade.vercel.app",

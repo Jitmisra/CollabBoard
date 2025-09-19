@@ -1,5 +1,5 @@
 // Test script to verify production backend connection
-const API_BASE_URL = 'https://web-production-09dde.up.railway.app';
+const API_BASE_URL = 'https://web-production-95b5.up.railway.app';
 
 async function testProductionConnection() {
   console.log('🔍 Testing production backend connection...');
